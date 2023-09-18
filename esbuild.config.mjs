@@ -1,6 +1,7 @@
 import esbuild from "esbuild";
 import process from "process";
 import builtins from "builtin-modules";
+import { exec } from "child_process";
 
 const banner =
 `/*
@@ -15,7 +16,6 @@ const plugins = [{
   setup(build) {
     build.onEnd(async result => {
       // 每次编译成功后，执行.ci/copy-script-to-workspace.sh 脚本
-      const { exec } = await import('child_process');
       exec('sh .ci/copy-script-to-workspace.sh', (err, stdout, stderr) => {
         if (err) {
           console.log(err);
